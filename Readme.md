@@ -1,7 +1,7 @@
 # Личный проект «Что посмотреть» [![Build status][travis-image]][travis-url]
 
 * Студент: [Max Bubnov](https://up.htmlacademy.ru/react/6/user/582743).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Федин](https://up.htmlacademy.ru/react/6/user/1599231).
 
 ---
 
