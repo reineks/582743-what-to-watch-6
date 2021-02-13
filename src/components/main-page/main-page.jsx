@@ -44,8 +44,8 @@ const MainPage = () => {
 
         <div className="catalog__movies-list">
           {
-            FILMS.map((film, index) => <FilmCard
-              key={film + index}
+            FILMS.map((film, id) => <FilmCard
+              key={id}
               title={film.title}
               img={film.img}
             />)}
