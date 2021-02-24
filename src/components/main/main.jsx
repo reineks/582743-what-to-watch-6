@@ -1,7 +1,7 @@
 import React from 'react';
 import PromoFilmCard from "../promo-film-card/promo-film-card";
 import MainPage from "../main-page/main-page";
-import PropTypes from 'prop-types';
+import FilmProp from "../props/film.prop";
 
 const Main = (props) => {
   const {title, genre, year} = props;
@@ -17,9 +17,7 @@ const Main = (props) => {
     </>
   );
 };
-Main.propTypes = {
-  title: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
-  year: PropTypes.string.isRequired
-};
+
+Main.propTypes = FilmProp;
+
 export default Main;
