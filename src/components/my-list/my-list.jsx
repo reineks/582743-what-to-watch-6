@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
-import FilmList from "../FilmList/film-list";
+import FilmList from "../film-list/film-list";
 import FilmProp from "../props/film.prop";
 
 const MyList = (props) => {

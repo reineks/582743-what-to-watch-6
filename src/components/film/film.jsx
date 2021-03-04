@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import NotFound from "../page-not-found/page-not-found";
-import FilmList from "../FilmList/film-list";
+// import NotFound from "../page-not-found/page-not-found";
+import FilmList from "../film-list/film-list";
 import FilmProp from "../props/film.prop";
 import {Link, useHistory} from "react-router-dom";
 import {EXTRA_FILMS_COUNT} from "../../consts";
 
-const FilmOverview = ({films, film}) => {
+const FilmOverview = (props) => {
+
+  const {films} = props;
 
   const {
-    title,
-    id,
     backgroundImage,
+    title,
     genre,
     released,
     posterImage,
@@ -20,16 +21,21 @@ const FilmOverview = ({films, film}) => {
     description,
     director,
     starring
-  } = film;
+  } = props.films;
 
   const history = useHistory();
+
   const handlePlayBtnClick = () => {
-    history.push(`/player/${id}`);
+    history.push(`/films/:id`);
   };
 
-  if (!film) {
-    return <NotFound />;
-  }
+  const handleAddBtnClick = () => {
+    history.push(`/mylist`);
+  };
+
+  // if (!film) {
+  //   return <NotFound />;
+  // }
 
   return (
     <>
@@ -72,7 +78,7 @@ const FilmOverview = ({films, film}) => {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button">
+                <button className="btn btn--list movie-card__button" type="button" onClick={handleAddBtnClick}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
@@ -122,7 +128,7 @@ const FilmOverview = ({films, film}) => {
                   <strong>Director: {director}</strong>
                 </p>
                 <p className="movie-card__starring">
-                  <strong>Starring: {starring.join(`, `)} and other</strong>
+                  <strong> Starring: and other </strong>
                 </p>
               </div>
             </div>

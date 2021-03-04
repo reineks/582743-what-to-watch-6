@@ -1,14 +1,26 @@
 import React from 'react';
+import {useHistory} from "react-router-dom";
 import FilmProp from "../props/film.prop";
 
 const PromoFilmCard = (props) => {
 
-  const {title, genre, released, posterImage} = props;
+  const {title, genre, released, posterImage, backgroundImage} = props.film;
+
+  const history = useHistory();
+
+  const handlePlayBtnClick = () => {
+    history.push(`/player/:id`);
+  };
+
+  const handleAddBtnClick = () => {
+    history.push(`/mylist`);
+  };
 
   return (
+
     <section className="movie-card">
       <div className="movie-card__bg">
-        <img src={posterImage} alt={title}/>
+        <img src={backgroundImage} alt={title}/>
       </div>
 
       <h1 className="visually-hidden">WTW</h1>
@@ -43,13 +55,13 @@ const PromoFilmCard = (props) => {
             </p>
 
             <div className="movie-card__buttons">
-              <button className="btn btn--play movie-card__button" type="button">
+              <button className="btn btn--play movie-card__button" type="button" onClick={handlePlayBtnClick}>
                 <svg viewBox="0 0 19 19" width="19" height="19">
                   <use xlinkHref="#play-s"></use>
                 </svg>
                 <span>Play</span>
               </button>
-              <button className="btn btn--list movie-card__button" type="button">
+              <button className="btn btn--list movie-card__button" type="button" onClick={handleAddBtnClick}>
                 <svg viewBox="0 0 19 20" width="19" height="20">
                   <use xlinkHref="#add"></use>
                 </svg>
@@ -63,6 +75,8 @@ const PromoFilmCard = (props) => {
   );
 };
 
-PromoFilmCard.propTypes = FilmProp;
+PromoFilmCard.propTypes = {
+  film: FilmProp.isRequired,
+};
 
 export default PromoFilmCard;

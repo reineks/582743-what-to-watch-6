@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {useParams} from 'react-router-dom';
-import NotFound from '../page-not-found/page-not-found';
+import NotFound from "../page-not-found/page-not-found";
 import FilmProp from "../props/film.prop";
 
 const Player = ({films}) => {
@@ -50,6 +51,8 @@ const Player = ({films}) => {
   );
 };
 
-Player.propTypes = FilmProp;
+Player.propTypes = {
+  films: PropTypes.arrayOf(FilmProp).isRequired,
+};
 
 export default Player;

@@ -3,9 +3,9 @@ import {Link} from "react-router-dom";
 import FilmProp from "../props/film.prop";
 import PostCommentForm from './post-form-comment';
 
-const ReviewForm = (props) => {
+const ReviewForm = ({film}) => {
 
-  const {title, posterImage, backgroundImage} = props;
+  const {title, posterImage, backgroundImage} = film;
 
   return (
     <section className="movie-card movie-card--full">
@@ -55,6 +55,8 @@ const ReviewForm = (props) => {
   );
 };
 
-ReviewForm.propTypes = FilmProp;
+ReviewForm.propTypes = {
+  film: FilmProp,
+};
 
 export default ReviewForm;

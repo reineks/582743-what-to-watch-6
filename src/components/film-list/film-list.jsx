@@ -4,12 +4,20 @@ import FilmCard from "../film-card/film-card";
 import FilmProp from "../props/film.prop";
 
 const FilmList = (props) => {
-  const setActiveId = useState(1)[1];
+  const [, setActiveId] = useState(null);
   const {films, genre} = props;
+
   return (
     <>
       {
-        films.filter((film) => !genre || film.genre === genre).map((film) => (<FilmCard key={film.id} film={film} setActiveId={setActiveId}/>))
+        films.filter((film) => !genre || film.genre === genre).map((film) => (
+          <FilmCard
+            key={film.id}
+            film={film}
+            onMouseEnter={() => setActiveId(film.id)}
+            onMouseLeave={() => setActiveId(null)}
+          />
+        ))
       }
     </>
   );
