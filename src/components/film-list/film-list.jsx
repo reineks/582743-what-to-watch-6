@@ -8,7 +8,7 @@ const FilmList = (props) => {
   const {films, genre} = props;
 
   return (
-    <>
+    <div className="catalog__movies-list">
       {
         films.filter((film) => !genre || film.genre === genre).map((film) => (
           <FilmCard
@@ -19,13 +19,14 @@ const FilmList = (props) => {
           />
         ))
       }
-    </>
+    </div>
   );
 };
 
 
 FilmList.propTypes = {
   films: PropTypes.arrayOf(FilmProp).isRequired,
+  genre: PropTypes.string,
 };
 
 export default FilmList;

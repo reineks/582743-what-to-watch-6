@@ -1,45 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import NotFound from "../page-not-found/page-not-found";
+import NotFound from "../page-not-found/page-not-found";
+import Tabs from "./tabs";
 import FilmList from "../film-list/film-list";
 import FilmProp from "../props/film.prop";
-import {Link, useHistory} from "react-router-dom";
+import ReviewsProp from "../props/review.prop";
+import {Link, useHistory, useParams} from "react-router-dom";
 import {EXTRA_FILMS_COUNT} from "../../consts";
 
-const FilmOverview = (props) => {
+const FilmOverview = ({films, reviews}) => {
 
-  const {films} = props;
+  const {id} = useParams();
+  const film = films.find((item) => item.id === Number(id));
+  const history = useHistory();
 
   const {
     backgroundImage,
+    backgroundColor,
     title,
     genre,
     released,
     posterImage,
-    rating,
-    scoresCount,
-    description,
-    director,
-    starring
-  } = props.films;
-
-  const history = useHistory();
+  } = film;
 
   const handlePlayBtnClick = () => {
-    history.push(`/films/:id`);
+    history.push(`/player/${film.id}`);
   };
 
   const handleAddBtnClick = () => {
     history.push(`/mylist`);
   };
 
-  // if (!film) {
-  //   return <NotFound />;
-  // }
+  const handleReviewBtnClick = () => {
+    history.push(`/films/${film.id}/review`);
+  };
+
+  if (!film) {
+    return <NotFound />;
+  }
 
   return (
     <>
-      <section className="movie-card movie-card--full">
+      <section className="movie-card movie-card--full" style={({backgroundColor})}>
         <div className="movie-card__hero">
           <div className="movie-card__bg">
             <img src={backgroundImage} alt={title}/>
@@ -84,7 +86,7 @@ const FilmOverview = (props) => {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link className="btn movie-card__button" to="/films/:id/review">Add review</Link>
+                <Link className="btn movie-card__button" to={`/films/${film.id}/review`} onClick={handleReviewBtnClick}>Add review</Link>
               </div>
             </div>
           </div>
@@ -96,42 +98,8 @@ const FilmOverview = (props) => {
               <img src={posterImage} alt={title} width="218" height="327"/>
             </div>
 
-            <div className="movie-card__desc">
-              <nav className="movie-nav movie-card__nav">
-                <ul className="movie-nav__list">
-                  <li className="movie-nav__item movie-nav__item--active">
-                    <a href="#" className="movie-nav__link">Overview</a>
-                  </li>
-                  <li className="movie-nav__item">
-                    <a href="#" className="movie-nav__link">Details</a>
-                  </li>
-                  <li className="movie-nav__item">
-                    <a href="#" className="movie-nav__link">Reviews</a>
-                  </li>
-                </ul>
-              </nav>
+            <Tabs film={film} reviews={reviews} />
 
-              <div className="movie-rating">
-                <div className="movie-rating__score">{rating}</div>
-                <p className="movie-rating__meta">
-                  <span className="movie-rating__level">Very good</span>
-                  <span className="movie-rating__count">{scoresCount}</span>
-                </p>
-              </div>
-
-              <div className="movie-card__text">
-                <p>{description}</p>
-
-                <p>{description}</p>
-
-                <p className="movie-card__director">
-                  <strong>Director: {director}</strong>
-                </p>
-                <p className="movie-card__starring">
-                  <strong> Starring: and other </strong>
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -165,7 +133,8 @@ const FilmOverview = (props) => {
 
 FilmOverview.propTypes = {
   films: PropTypes.arrayOf(FilmProp).isRequired,
-  film: FilmProp.isRequired,
+  film: PropTypes.object,
+  reviews: PropTypes.arrayOf(ReviewsProp).isRequired,
 };
 
 export default FilmOverview;

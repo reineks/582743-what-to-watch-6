@@ -2,14 +2,13 @@ import React from 'react';
 import {useHistory} from "react-router-dom";
 import FilmProp from "../props/film.prop";
 
-const PromoFilmCard = (props) => {
+const PromoFilmCard = ({film}) => {
 
-  const {title, genre, released, posterImage, backgroundImage} = props.film;
-
+  const {title, genre, released, posterImage, backgroundImage} = film;
   const history = useHistory();
 
   const handlePlayBtnClick = () => {
-    history.push(`/player/:id`);
+    history.push(`/player/${film.id}`);
   };
 
   const handleAddBtnClick = () => {
