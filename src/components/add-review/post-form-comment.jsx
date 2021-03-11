@@ -1,56 +1,50 @@
-import React, {useState} from 'react';
-import {STARS_COUNT} from "../../consts";
+import React, {Fragment, useState} from 'react';
 
 const PostCommentForm = () => {
-  const [reviewForm, setReviewForm] = useState({
-    rating: `8`,
-    reviewText: ``
-  });
 
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-  };
+  const [review, setReview] = useState(``);
+  const [rating, setRating] = useState(1);
 
-  const handleRatingChange = (evt) => {
-    const {name, value} = evt.target;
-    setReviewForm({...reviewForm, [name]: value});
-  };
-
-  const handleReviewTextChange = (evt) => {
-    setReviewForm({...reviewForm, reviewText: evt.target.value});
-  };
-
-  const createRadioButtonStars = (count = STARS_COUNT) => {
-    const radioButtonStars = new Array(count).fill(null);
-
-    return radioButtonStars.map((_, index) => {
-      const serialId = (index + 1).toString();
-      return <React.Fragment key={serialId}>
-        <input className="rating__input" id={`star-${serialId}`} type="radio" name="rating" value={serialId} checked={rating === serialId} onChange={handleRatingChange} />
-        <label className="rating__label" htmlFor={`star-${serialId}`}>Rating {serialId}</label>
-      </React.Fragment>;
-    }
-    );
-  };
-
-  const {rating, reviewText} = reviewForm;
+  const stars = new Array(10).fill().map((el, index) =>
+    <Fragment key={`star-${index}`}>
+      <input
+        className="rating__input"
+        id={`star-${index}`}
+        type="radio" name="rating"
+        value={index + 1}
+        checked={index + 1 === rating}
+        onChange={() => setRating(index + 1)}
+      />
+      <label className="rating__label" htmlFor={`star-${index}`}>Rating {index + 1} </label>
+    </Fragment>
+  );
 
   return (
-    <form action="#" className="add-review__form" onSubmit={handleSubmit}>
-      <div className="rating">
-        <div className="rating__stars">
-          {createRadioButtonStars()}
-        </div>
-      </div>
-
-      <div className="add-review__text">
-        <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" onChange={handleReviewTextChange} value={reviewText}></textarea>
-        <div className="add-review__submit">
-          <button className="add-review__btn" type="submit">Post</button>
+    <div className="add-review">
+      <form action="#" className="add-review__form">
+        <div className="rating">
+          <div className="rating__stars">
+            {stars}
+          </div>
         </div>
 
-      </div>
-    </form>
+        <div className="add-review__text">
+          <textarea
+            className="add-review__textarea"
+            name="review-text" id="review-text"
+            placeholder="Review text"
+            value={review}
+            onChange={(evt) => setReview(evt.target.value)}
+          >
+
+          </textarea>
+          <div className="add-review__submit">
+            <button className="add-review__btn" type="submit">Post</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
   );
 };
 

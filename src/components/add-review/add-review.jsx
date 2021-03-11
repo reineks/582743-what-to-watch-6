@@ -1,14 +1,18 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import FilmProp from "../props/film.prop";
-import PostCommentForm from './post-form-comment';
+import PropTypes from 'prop-types';
+import PostCommentForm from "./post-form-comment";
 
-const ReviewForm = ({film}) => {
+const ReviewForm = ({films}) => {
 
-  const {title, posterImage, backgroundImage} = film;
+  const {id} = useParams();
+  const film = films.find((item) => item.id === Number(id));
+
+  const {title, posterImage, backgroundImage, backgroundColor} = film;
 
   return (
-    <section className="movie-card movie-card--full">
+    <section className="movie-card movie-card--full" style={({backgroundColor})}>
       <div className="movie-card__header">
         <div className="movie-card__bg">
           <img src={backgroundImage} alt={title} />
@@ -28,7 +32,7 @@ const ReviewForm = ({film}) => {
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link className="breadcrumbs__link" to="/films/:id">{title}</Link>
+                <Link className="breadcrumbs__link" to={`/films/${film.id}`}>{title}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -56,7 +60,8 @@ const ReviewForm = ({film}) => {
 };
 
 ReviewForm.propTypes = {
-  film: FilmProp,
+  films: PropTypes.arrayOf(FilmProp).isRequired,
+  film: PropTypes.obj,
 };
 
 export default ReviewForm;
