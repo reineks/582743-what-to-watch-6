@@ -1,25 +1,48 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+
+import FilmProp from "../props/film.prop";
+let timeoutId;
 
 const FilmCard = (props) => {
-  const {title, img} = props;
+  const {film, setActiveId} = props;
+  const {id, title, previewImage} = film;
+  const history = useHistory();
+
+  const handleMouseEnter = () => {
+    setActiveId(id);
+    timeoutId = setTimeout(() => {
+      setIsPlaying(true);
+    }, 1000);
+  };
+
+  const handleMouseLeave = () => {
+    setActiveId(null);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    setIsPlaying(false);
+  };
+
+  const handleCardClick = () => {
+    history.push(`/films/:id`);
+  };
 
   return (
-    <article className="small-movie-card catalog__movies-card">
+    <article className="small-movie-card catalog__movies-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="small-movie-card__image">
-        <img src={img} alt={title} width="280" height="175"/>
+        <img src={previewImage} alt={title} width="280" height="175"/>
+
       </div>
       <h3 className="small-movie-card__title">
-        <Link className="small-movie-card__link" to="/films/:id?">{title}</Link>
+        <Link className="small-movie-card__link" to="/films/:id" onClick={handleCardClick}>{title}</Link>
       </h3>
     </article>
   );
 };
 
 FilmCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  img: PropTypes.string.isRequired
+  film: FilmProp.isRequired,
 };
 
 export default FilmCard;

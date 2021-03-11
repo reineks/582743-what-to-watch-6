@@ -1,8 +1,11 @@
 import React from 'react';
-import FilmCard from "../film-card/film-card";
-import {FILMS} from "../../mocks/mocks";
+import PropTypes from 'prop-types';
+import FilmList from "../film-list/film-list";
+import FilmProp from "../props/film.prop";
 
-const MainPage = () => {
+const MainPage = (props) => {
+
+  const {films} = props;
 
   return (
     <div className="page-content">
@@ -43,12 +46,7 @@ const MainPage = () => {
         </ul>
 
         <div className="catalog__movies-list">
-          {
-            FILMS.map((film, id) => <FilmCard
-              key={id}
-              title={film.title}
-              img={film.img}
-            />)}
+          <FilmList films={films} />
         </div>
 
         <div className="catalog__more">
@@ -70,6 +68,10 @@ const MainPage = () => {
       </footer>
     </div>
   );
+};
+
+MainPage.propTypes = {
+  films: PropTypes.arrayOf(FilmProp).isRequired,
 };
 
 export default MainPage;

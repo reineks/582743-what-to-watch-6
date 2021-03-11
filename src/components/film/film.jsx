@@ -1,13 +1,48 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import PropTypes from 'prop-types';
+// import NotFound from "../page-not-found/page-not-found";
+import FilmList from "../film-list/film-list";
+import FilmProp from "../props/film.prop";
+import {Link, useHistory} from "react-router-dom";
+import {EXTRA_FILMS_COUNT} from "../../consts";
 
-const FilmOverview = () => {
+const FilmOverview = (props) => {
+
+  const {films} = props;
+
+  const {
+    backgroundImage,
+    title,
+    genre,
+    released,
+    posterImage,
+    rating,
+    scoresCount,
+    description,
+    director,
+    starring
+  } = props.films;
+
+  const history = useHistory();
+
+  const handlePlayBtnClick = () => {
+    history.push(`/films/:id`);
+  };
+
+  const handleAddBtnClick = () => {
+    history.push(`/mylist`);
+  };
+
+  // if (!film) {
+  //   return <NotFound />;
+  // }
+
   return (
     <>
       <section className="movie-card movie-card--full">
         <div className="movie-card__hero">
           <div className="movie-card__bg">
-            <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+            <img src={backgroundImage} alt={title}/>
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -30,26 +65,26 @@ const FilmOverview = () => {
 
           <div className="movie-card__wrap">
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">The Grand Budapest Hotel</h2>
+              <h2 className="movie-card__title">{title}</h2>
               <p className="movie-card__meta">
-                <span className="movie-card__genre">Drama</span>
-                <span className="movie-card__year">2014</span>
+                <span className="movie-card__genre">{genre}</span>
+                <span className="movie-card__year">{released}</span>
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button className="btn btn--play movie-card__button" type="button" onClick={handlePlayBtnClick}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button">
+                <button className="btn btn--list movie-card__button" type="button" onClick={handleAddBtnClick}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to="/films/:id/review" className="btn movie-card__button">Add review</Link>
+                <Link className="btn movie-card__button" to="/films/:id/review">Add review</Link>
               </div>
             </div>
           </div>
@@ -58,7 +93,7 @@ const FilmOverview = () => {
         <div className="movie-card__wrap movie-card__translate-top">
           <div className="movie-card__info">
             <div className="movie-card__poster movie-card__poster--big">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327"/>
+              <img src={posterImage} alt={title} width="218" height="327"/>
             </div>
 
             <div className="movie-card__desc">
@@ -77,26 +112,24 @@ const FilmOverview = () => {
               </nav>
 
               <div className="movie-rating">
-                <div className="movie-rating__score">8,9</div>
+                <div className="movie-rating__score">{rating}</div>
                 <p className="movie-rating__meta">
                   <span className="movie-rating__level">Very good</span>
-                  <span className="movie-rating__count">240 ratings</span>
+                  <span className="movie-rating__count">{scoresCount}</span>
                 </p>
               </div>
 
               <div className="movie-card__text">
-                <p>In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge
-                  Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave`&apos;`s friend and protege.</p>
+                <p>{description}</p>
 
-                <p>Gustave prides himself on providing first-class service to the hotel`&apos;`s guests, including satisfying
-                  the sexual needs of the many elderly women who stay there. When one of Gustave`&apos;`s lovers dies
-                  mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her
-                  murder.</p>
+                <p>{description}</p>
 
-                <p className="movie-card__director"><strong>Director: Wes Andreson</strong></p>
-
-                <p className="movie-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe
-                  and other</strong></p>
+                <p className="movie-card__director">
+                  <strong>Director: {director}</strong>
+                </p>
+                <p className="movie-card__starring">
+                  <strong> Starring: and other </strong>
+                </p>
               </div>
             </div>
           </div>
@@ -106,45 +139,10 @@ const FilmOverview = () => {
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-
-          <div className="catalog__movies-list">
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175"/>
-              </div>
-              <h3 className="small-movie-card__title">
-                <Link className="small-movie-card__link" to="/films/:id?">Fantastic Beasts: The Crimes of
-                  Grindelwald</Link>
-              </h3>
-            </article>
-
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175"/>
-              </div>
-              <h3 className="small-movie-card__title">
-                <Link className="small-movie-card__link" to="/films/:id?">Bohemian Rhapsody</Link>
-              </h3>
-            </article>
-
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175"/>
-              </div>
-              <h3 className="small-movie-card__title">
-                <Link className="small-movie-card__link" to="/films/:id?">Macbeth</Link>
-              </h3>
-            </article>
-
-            <article className="small-movie-card catalog__movies-card">
-              <div className="small-movie-card__image">
-                <img src="img/aviator.jpg" alt="Aviator" width="280" height="175"/>
-              </div>
-              <h3 className="small-movie-card__title">
-                <Link className="small-movie-card__link" to="/films/:id?">Aviator</Link>
-              </h3>
-            </article>
-          </div>
+          <FilmList
+            films={films.filter((el) => el.genre === genre).slice(0, EXTRA_FILMS_COUNT)}
+            listSize={EXTRA_FILMS_COUNT}
+          />
         </section>
 
         <footer className="page-footer">
@@ -163,6 +161,11 @@ const FilmOverview = () => {
       </div>
     </>
   );
+};
+
+FilmOverview.propTypes = {
+  films: PropTypes.arrayOf(FilmProp).isRequired,
+  film: FilmProp.isRequired,
 };
 
 export default FilmOverview;
