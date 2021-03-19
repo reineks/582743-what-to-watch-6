@@ -1,10 +1,11 @@
 export const FILMS_LIST_SIZE = 8;
 export const EXTRA_FILMS_COUNT = 4;
 export const MAX_STARRING = 4;
+export const GENRES_LIST_COUNT = 9;
 
 export const TabNames = [`Overview`, `Details`, `Reviews`];
 
-export const GENRES = [
+export const ALL_GENRES = [
   `All genres`,
   `Comedies`,
   `Crime`,

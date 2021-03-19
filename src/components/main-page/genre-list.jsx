@@ -1,24 +1,26 @@
-import React, {useState} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {GENRES} from "../../consts";
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/action';
+import FilmProp from "../props/film.prop";
+import {getGenreList} from "../../utils";
 
-const GenresList = () => {
-  const initialGenre = GENRES[0];
-  const [activeGenre, setActiveGenre] = useState(initialGenre);
+const GenresList = (props) => {
 
-  const handleLinkClick = (genre) => {
-    setActiveGenre(genre);
-  };
+  const {films, activeGenre, onGenreItemClick} = props;
+
+  const genres = getGenreList(films);
 
   return (
     <ul className="catalog__genres-list">
       {
-        GENRES.map((genre) => (
+        genres.map((genre) => (
           <li
             className={`catalog__genres-item ${activeGenre === genre
               ? `catalog__genres-item--active` : ``}`}
             key={genre}
-            onClick={() => handleLinkClick(genre)}
+            onClick={() => onGenreItemClick(genre)}
           >
             <Link to="/" className="catalog__genres-link">{genre}</Link>
           </li>
@@ -28,4 +30,23 @@ const GenresList = () => {
   );
 };
 
-export default GenresList;
+GenresList.propTypes = {
+  films: PropTypes.arrayOf(FilmProp).isRequired,
+  activeGenre: PropTypes.string,
+  onGenreItemClick: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  activeGenre: state.activeGenre,
+  films: state.films,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onGenreItemClick(genre) {
+    dispatch(ActionCreator.changeGenre(genre));
+  },
+});
+
+export {GenresList};
+export default connect(mapStateToProps, mapDispatchToProps)(GenresList);
+

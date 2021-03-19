@@ -1,4 +1,6 @@
+import {ALL_GENRES, GENRES_LIST_COUNT} from "./consts";
 
+const DEFAULT_GENRE = `All genres`;
 
 export const getRankLabel = (rank) => {
 
@@ -13,4 +15,17 @@ export const getRankLabel = (rank) => {
   } else {
     return `Awesome`;
   }
+};
+
+export const getFilmsByGenre = (films, genre) => {
+  if (genre === ALL_GENRES) {
+    return films;
+  }
+  return films.filter((film) => film.genre === genre);
+};
+
+export const getGenreList = (films) => {
+  const genres = films.map((film) => film.genre).sort();
+
+  return [DEFAULT_GENRE, ...new Set(genres)].slice(0, GENRES_LIST_COUNT);
 };

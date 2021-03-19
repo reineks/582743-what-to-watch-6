@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import FilmCard from "../film-card/film-card";
 import FilmProp from "../props/film.prop";
 
-const FilmList = (props) => {
+const FilmList = (films) => {
   const [, setActiveId] = useState(null);
-  const {films, genre} = props;
 
   return (
     <div className="catalog__movies-list">
       {
-        films.filter((film) => !genre || film.genre === genre).map((film) => (
+        films.map((film) => (
           <FilmCard
             key={film.id}
             film={film}
@@ -26,7 +25,6 @@ const FilmList = (props) => {
 
 FilmList.propTypes = {
   films: PropTypes.arrayOf(FilmProp).isRequired,
-  genre: PropTypes.string,
 };
 
 export default FilmList;

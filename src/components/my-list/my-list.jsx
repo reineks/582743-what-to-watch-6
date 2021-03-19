@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 import FilmList from "../film-list/film-list";
 import FilmProp from "../props/film.prop";
+import {FILMS_LIST_SIZE} from "../../consts";
 
 const MyList = (props) => {
 
@@ -31,7 +32,10 @@ const MyList = (props) => {
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
         <div className="catalog__movies-list">
-          <FilmList films={films} />
+          <FilmList
+            films={films.filter((film) => film.isFavorite)}
+            listSize={FILMS_LIST_SIZE}
+          />
         </div>
       </section>
       <footer className="page-footer">
