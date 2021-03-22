@@ -1,6 +1,5 @@
-import {ALL_GENRES, GENRES_LIST_COUNT} from "./consts";
-
-const DEFAULT_GENRE = `All genres`;
+import {GENRES_LIST_COUNT} from "./consts";
+import {ALL_GENRES, DEFAULT_GENRE} from "./consts";
 
 export const getRankLabel = (rank) => {
 
@@ -17,7 +16,7 @@ export const getRankLabel = (rank) => {
   }
 };
 
-export const getFilmsByGenre = (films, genre) => {
+export const getFilmsByGenre = (genre, films) => {
   if (genre === ALL_GENRES) {
     return films;
   }

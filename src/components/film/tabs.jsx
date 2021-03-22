@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
+import {Link} from "react-router-dom";
 import FilmProp from "../props/film.prop";
 import ReviewsProp from "../props/review.prop";
 import {MAX_STARRING, TabDetails, TabTypes} from "../../consts";
@@ -118,8 +119,12 @@ const Tabs = ({film}, reviews) => {
           {
             TabDetails.map((tab) =>
               (
-                <li key={tab.type} data-id={tab.type} onClick={handleTabClick} className={`movie-nav__item ${tab.type === activeTab ? `movie-nav__item--active` : ``}`}>
-                  <a href="#" className="movie-nav__link">{tab.title}</a>
+                <li
+                  key={tab.type}
+                  data-id={tab.type}
+                  onClick={handleTabClick}
+                  className={`movie-nav__item ${tab.type === activeTab ? `movie-nav__item--active` : ``}`}>
+                  <Link to="#" className="movie-nav__link">{tab.title}</Link>
                 </li>
               ))
           }

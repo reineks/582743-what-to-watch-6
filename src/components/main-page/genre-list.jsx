@@ -12,19 +12,23 @@ const GenresList = (props) => {
 
   const genres = getGenreList(films);
 
+  const handleGenreClick = ({currentTarget}) => {
+    onGenreItemClick(currentTarget.dataset.genre);
+  };
+
   return (
     <ul className="catalog__genres-list">
       {
-        genres.map((genre) => (
+        genres.map((genre, index) =>
           <li
-            className={`catalog__genres-item ${activeGenre === genre
-              ? `catalog__genres-item--active` : ``}`}
-            key={genre}
-            onClick={() => onGenreItemClick(genre)}
+            className={`catalog__genres-item ${activeGenre === genre ? `catalog__genres-item--active` : ``}`}
+            key={`genre-${index}`}
+            data-genre={genre}
+            onClick={handleGenreClick}
           >
             <Link to="/" className="catalog__genres-link">{genre}</Link>
           </li>
-        ))
+        )
       }
     </ul>
   );

@@ -6,6 +6,8 @@ import {getFilmsByGenre} from "../../utils";
 import FilmList from "../film-list/film-list";
 import GenresList from "../main-page/genre-list";
 import FilmProp from "../props/film.prop";
+import {FILMS_LIST_SIZE} from "../../consts";
+
 
 const MainPage = (props) => {
 
@@ -22,10 +24,9 @@ const MainPage = (props) => {
         <GenresList />
         <FilmList
           films={films}
+          filmslistSize = {FILMS_LIST_SIZE}
         />
-        <div className="catalog__more">
-          <button className="catalog__button" type="button">Show more</button>
-        </div>
+
       </section>
       <footer className="page-footer">
         <div className="logo">

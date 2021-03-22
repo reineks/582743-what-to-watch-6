@@ -61,6 +61,7 @@ const ReviewForm = ({films}) => {
 
 ReviewForm.propTypes = {
   films: PropTypes.arrayOf(FilmProp).isRequired,
+  film: FilmProp,
 };
 
 export default ReviewForm;

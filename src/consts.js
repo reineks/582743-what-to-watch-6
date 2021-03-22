@@ -1,3 +1,4 @@
+export const DEFAULT_GENRE = `All genres`;
 export const FILMS_LIST_SIZE = 8;
 export const EXTRA_FILMS_COUNT = 4;
 export const MAX_STARRING = 4;
