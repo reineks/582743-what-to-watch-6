@@ -19,7 +19,7 @@ const getDuration = (film) => {
   }
 };
 
-const Tabs = ({film}, reviews) => {
+const Tabs = ({film, reviews}) => {
 
   const {starring, rating, scoresCount, description, director, genre, released} = film;
 

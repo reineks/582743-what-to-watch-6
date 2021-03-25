@@ -35,7 +35,7 @@ const ReviewForm = ({films}) => {
                 <Link className="breadcrumbs__link" to={`/films/${film.id}`}>{title}</Link>
               </li>
               <li className="breadcrumbs__item">
-                <a className="breadcrumbs__link">Add review</a>
+                <Link to="#" className="breadcrumbs__link">Add review</Link>
               </li>
             </ul>
           </nav>

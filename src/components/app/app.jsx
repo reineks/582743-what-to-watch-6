@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Main from "../main/main";
 import SignIn from "../sign-in/sign-in";
@@ -22,8 +23,8 @@ const App = (props) => {
           <SignIn />
         </Route>
 
-        <Route exact path="/mylist">
-          <MyList films={films} />
+        <Route exact path="/myList">
+          <MyList />
         </Route>
 
         <Route exact path="/films/:id/review">
@@ -39,7 +40,7 @@ const App = (props) => {
         </Route>
 
         <Route exact path="/">
-          <Main films={films} />
+          <Main films={films}/>
         </Route>
 
         <Route>
@@ -55,4 +56,9 @@ App.propTypes = {
   films: PropTypes.arrayOf(FilmProp).isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  films: state.films,
+});
+
+export {App};
+export default connect(mapStateToProps, null)(App);

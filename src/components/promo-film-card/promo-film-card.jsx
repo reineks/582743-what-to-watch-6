@@ -2,13 +2,13 @@ import React from 'react';
 import {useHistory} from "react-router-dom";
 import FilmProp from "../props/film.prop";
 
-const PromoFilmCard = ({film}) => {
+const PromoFilmCard = ({promo}) => {
 
-  const {title, genre, released, posterImage, backgroundImage} = film;
+  const {id, title, genre, released, posterImage, backgroundImage} = promo;
   const history = useHistory();
 
   const handlePlayBtnClick = () => {
-    history.push(`/player/${film.id}`);
+    history.push(`/player/${id}`);
   };
 
   const handleAddBtnClick = () => {
@@ -75,7 +75,7 @@ const PromoFilmCard = ({film}) => {
 };
 
 PromoFilmCard.propTypes = {
-  film: FilmProp.isRequired,
+  promo: FilmProp.isRequired,
 };
 
 export default PromoFilmCard;

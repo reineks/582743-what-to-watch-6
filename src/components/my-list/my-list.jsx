@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {Link} from "react-router-dom";
 import FilmList from "../film-list/film-list";
 import FilmProp from "../props/film.prop";
-import {FILMS_LIST_SIZE} from "../../consts";
+// import {FILMS_LIST_SIZE} from "../../consts";
 
 const MyList = (props) => {
 
@@ -34,7 +35,6 @@ const MyList = (props) => {
         <div className="catalog__movies-list">
           <FilmList
             films={films.filter((film) => film.isFavorite)}
-            listSize={FILMS_LIST_SIZE}
           />
         </div>
       </section>
@@ -58,4 +58,9 @@ MyList.propTypes = {
   films: PropTypes.arrayOf(FilmProp).isRequired,
 };
 
-export default MyList;
+const mapStateToProps = (state) => ({
+  films: state.films,
+});
+
+export {MyList};
+export default connect(mapStateToProps, null)(MyList);
