@@ -5,6 +5,7 @@ import Tabs from "./tabs";
 import FilmList from "../film-list/film-list";
 import FilmProp from "../props/film.prop";
 import ReviewsProp from "../props/review.prop";
+import User from "../user/user";
 import {connect} from 'react-redux';
 import {fetchComments} from "../../store/api-actions";
 import {Link, useHistory, useParams} from "react-router-dom";
@@ -63,12 +64,7 @@ const FilmOverview = ({films, reviews, loadComments}) => {
                 <span className="logo__letter logo__letter--3">W</span>
               </Link>
             </div>
-
-            <div className="user-block">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-              </div>
-            </div>
+            <User />
           </header>
 
           <div className="movie-card__wrap">

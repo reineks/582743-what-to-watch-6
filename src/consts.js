@@ -6,11 +6,27 @@ const GENRES_LIST_COUNT = 9;
 const BACKEND_URL = `https://6.react.pages.academy/wtw`;
 const REQUEST_TIMEOUT = 5000;
 
+const HttpCode = {
+  UNAUTHORIZED: 401
+};
+
+const AuthorizationStatus = {
+  AUTH: `AUTH`,
+  NO_AUTH: `NO_AUTH`
+};
+
 const ApiPaths = {
   FILMS: `/films`,
   PROMO: `/films/promo`,
   FAVORITE: `/favorite`,
   COMMENTS: `/comments`,
+  LOGIN: `/login`,
+  NO_AUTH: `/logout`,
+};
+
+const AppPaths = {
+  MYLIST: `/mylist`,
+  LOGIN: `/login`,
 };
 
 const ALL_GENRES = [
@@ -47,4 +63,19 @@ const TabDetails = [
   },
 ];
 
-export {TabDetails, TabTypes, ApiPaths, ALL_GENRES, DEFAULT_GENRE, FILMS_LIST_SIZE, EXTRA_FILMS_COUNT, MAX_STARRING, GENRES_LIST_COUNT, REQUEST_TIMEOUT, BACKEND_URL};
+export {
+  HttpCode,
+  TabTypes,
+  ApiPaths,
+  AppPaths,
+  TabDetails,
+  ALL_GENRES,
+  BACKEND_URL,
+  DEFAULT_GENRE,
+  MAX_STARRING,
+  REQUEST_TIMEOUT,
+  FILMS_LIST_SIZE,
+  EXTRA_FILMS_COUNT,
+  GENRES_LIST_COUNT,
+  AuthorizationStatus,
+};

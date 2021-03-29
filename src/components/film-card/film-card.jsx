@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types';
+import React, {useEffect, useState} from 'react';
+// import PropTypes from 'prop-types';
 import {Link, useHistory} from "react-router-dom";
 import FilmProp from "../props/film.prop";
 import FilmCardPlayer from "../card-player/card-player";
@@ -14,20 +14,24 @@ const FilmCard = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
 
-  const handleMouseEnter = (evt) => {
-    props.onMouseEnter(evt);
+  const handleMouseEnter = () => {
     timeoutId = setTimeout(() => {
       setIsPlaying(true);
     }, 1000);
   };
 
-  const handleMouseLeave = (evt) => {
-    props.onMouseLeave(evt);
+  const handleMouseLeave = () => {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
     setIsPlaying(false);
   };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  });
 
   const handleCardClick = () => {
     history.push(`/films/${film.id}`);
@@ -58,8 +62,6 @@ const FilmCard = (props) => {
 
 FilmCard.propTypes = {
   film: FilmProp.isRequired,
-  onMouseEnter: PropTypes.func.isRequired,
-  onMouseLeave: PropTypes.func.isRequired,
 };
 
 export default FilmCard;

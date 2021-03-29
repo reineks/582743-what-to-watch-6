@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from "react-router-dom";
 import FilmList from "../film-list/film-list";
+import User from "../user/user";
 import FilmProp from "../props/film.prop";
-// import {FILMS_LIST_SIZE} from "../../consts";
 
 const MyList = (props) => {
 
@@ -22,12 +22,7 @@ const MyList = (props) => {
         </div>
 
         <h1 className="page-title user-page__title">My list</h1>
-
-        <div className="user-block">
-          <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-          </div>
-        </div>
+        <User />
       </header>
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>

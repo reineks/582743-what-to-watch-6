@@ -4,7 +4,7 @@ const Spinner = () => {
 
   return (
     <div className="spinner-wrapper">
-      <span className="visually-hidden">Loading</span>
+      <span>Loading</span>
     </div>
   );
 };

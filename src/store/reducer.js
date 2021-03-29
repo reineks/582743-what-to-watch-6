@@ -1,5 +1,5 @@
 import {ActionType} from "./action";
-import {ALL_GENRES} from "../consts";
+import {ALL_GENRES, AuthorizationStatus} from "../consts";
 
 const initialState = {
   genre: ALL_GENRES,
@@ -7,6 +7,11 @@ const initialState = {
   reviews: [],
   promo: {},
   isDataLoaded: {films: false, promo: false},
+  authorizationStatus: AuthorizationStatus.NO_AUTH,
+  user: {
+    email: null,
+    avatar: null
+  }
 };
 
 const reducer = (state = initialState, action) => {
@@ -34,6 +39,21 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         reviews: action.payload,
+      };
+
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.payload
+      };
+
+    case ActionType.LOGGED_IN:
+      return {
+        ...state,
+        user: {
+          email: action.payload.email,
+          avatar: action.payload.avatar
+        }
       };
   }
   return state;

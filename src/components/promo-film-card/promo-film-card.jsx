@@ -1,6 +1,7 @@
 import React from 'react';
 import {useHistory} from "react-router-dom";
 import FilmProp from "../props/film.prop";
+import User from "../user/user";
 
 const PromoFilmCard = ({promo}) => {
 
@@ -32,12 +33,7 @@ const PromoFilmCard = ({promo}) => {
             <span className="logo__letter logo__letter--3">W</span>
           </a>
         </div>
-
-        <div className="user-block">
-          <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
-          </div>
-        </div>
+        <User />
       </header>
 
       <div className="movie-card__wrap">
