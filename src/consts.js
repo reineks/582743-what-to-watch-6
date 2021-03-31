@@ -1,10 +1,19 @@
-export const FILMS_LIST_SIZE = 8;
-export const EXTRA_FILMS_COUNT = 4;
-export const MAX_STARRING = 4;
+const DEFAULT_GENRE = `All genres`;
+const FILMS_LIST_SIZE = 8;
+const EXTRA_FILMS_COUNT = 4;
+const MAX_STARRING = 4;
+const GENRES_LIST_COUNT = 9;
+const BACKEND_URL = `https://6.react.pages.academy/wtw`;
+const REQUEST_TIMEOUT = 5000;
 
-export const TabNames = [`Overview`, `Details`, `Reviews`];
+const ApiPaths = {
+  FILMS: `/films`,
+  PROMO: `/films/promo`,
+  FAVORITE: `/favorite`,
+  COMMENTS: `/comments`,
+};
 
-export const GENRES = [
+const ALL_GENRES = [
   `All genres`,
   `Comedies`,
   `Crime`,
@@ -17,13 +26,13 @@ export const GENRES = [
   `Thrillers`
 ];
 
-export const TabTypes = {
+const TabTypes = {
   OVERVIEW: `overview`,
   DETAILS: `details`,
   REVIEWS: `reviews`
 };
 
-export const TabDetails = [
+const TabDetails = [
   {
     type: TabTypes.OVERVIEW,
     title: `Overview`
@@ -37,3 +46,5 @@ export const TabDetails = [
     title: `Reviews`
   },
 ];
+
+export {TabDetails, TabTypes, ApiPaths, ALL_GENRES, DEFAULT_GENRE, FILMS_LIST_SIZE, EXTRA_FILMS_COUNT, MAX_STARRING, GENRES_LIST_COUNT, REQUEST_TIMEOUT, BACKEND_URL};

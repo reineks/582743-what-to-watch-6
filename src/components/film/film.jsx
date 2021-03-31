@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import NotFound from "../page-not-found/page-not-found";
 import Tabs from "./tabs";
 import FilmList from "../film-list/film-list";
 import FilmProp from "../props/film.prop";
 import ReviewsProp from "../props/review.prop";
+import {connect} from 'react-redux';
+import {fetchComments} from "../../store/api-actions";
 import {Link, useHistory, useParams} from "react-router-dom";
 import {EXTRA_FILMS_COUNT} from "../../consts";
 
-const FilmOverview = ({films, reviews}) => {
+const FilmOverview = ({films, reviews, loadComments}) => {
 
   const {id} = useParams();
   const film = films.find((item) => item.id === Number(id));
@@ -22,6 +24,10 @@ const FilmOverview = ({films, reviews}) => {
     released,
     posterImage,
   } = film;
+
+  useEffect(() => {
+    loadComments(id);
+  }, [film]);
 
   const handlePlayBtnClick = () => {
     history.push(`/player/${film.id}`);
@@ -135,6 +141,19 @@ FilmOverview.propTypes = {
   films: PropTypes.arrayOf(FilmProp).isRequired,
   film: PropTypes.object,
   reviews: PropTypes.arrayOf(ReviewsProp).isRequired,
+  loadComments: PropTypes.func,
 };
 
-export default FilmOverview;
+
+const mapStateToProps = (state) => ({
+  reviews: state.reviews,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  loadComments(filmId) {
+    dispatch(fetchComments(filmId));
+  },
+});
+
+export {FilmOverview};
+export default connect(mapStateToProps, mapDispatchToProps)(FilmOverview);
