@@ -1,17 +1,15 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import FilmProp from "../props/film.prop";
 import FilmCardPlayer from "../card-player/card-player";
 
-let timeoutId;
-
 const FilmCard = (props) => {
 
-  const history = useHistory();
   const {film} = props;
   const {title, previewVideoLink, previewImage} = film;
   const [isPlaying, setIsPlaying] = useState(false);
+  let timeoutId = useState();
 
 
   const handleMouseEnter = (evt) => {
@@ -27,10 +25,6 @@ const FilmCard = (props) => {
       clearTimeout(timeoutId);
     }
     setIsPlaying(false);
-  };
-
-  const handleCardClick = () => {
-    history.push(`/films/${film.id}`);
   };
 
   return (
@@ -50,7 +44,7 @@ const FilmCard = (props) => {
         />
       </div>
       <h3 className="small-movie-card__title">
-        <Link className="small-movie-card__link" to={`/films/${film.id}`} onClick={handleCardClick}>{title}</Link>
+        <Link className="small-movie-card__link" to={`/films/${film.id}`}>{title}</Link>
       </h3>
     </article>
   );
