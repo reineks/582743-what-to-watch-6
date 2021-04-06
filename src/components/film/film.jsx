@@ -6,15 +6,20 @@ import FilmList from "../film-list/film-list";
 import FilmProp from "../props/film.prop";
 import ReviewsProp from "../props/review.prop";
 import User from "../user/user";
+import {useSelector} from 'react-redux';
 import {connect} from 'react-redux';
-import {fetchComments} from "../../store/api-actions";
+import {fetchComments} from "../../store/data/operations";
 import {Link, useHistory, useParams} from "react-router-dom";
 import {EXTRA_FILMS_COUNT} from "../../consts";
+import AddToMyList from "../film/add-my-list";
+import {getFilmById} from "../../store/data/selectors";
+import {getIsAuthorized} from "../../store/user/selectors";
 
 const FilmOverview = ({films, reviews, loadComments}) => {
 
   const {id} = useParams();
-  const film = films.find((item) => item.id === Number(id));
+  const film = useSelector((state) => getFilmById(state, id));
+  const isAuthorized = useSelector((state) => getIsAuthorized(state));
   const history = useHistory();
 
   const {
@@ -32,14 +37,6 @@ const FilmOverview = ({films, reviews, loadComments}) => {
 
   const handlePlayBtnClick = () => {
     history.push(`/player/${film.id}`);
-  };
-
-  const handleAddBtnClick = () => {
-    history.push(`/mylist`);
-  };
-
-  const handleReviewBtnClick = () => {
-    history.push(`/films/${film.id}/review`);
   };
 
   if (!film) {
@@ -82,13 +79,10 @@ const FilmOverview = ({films, reviews, loadComments}) => {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button" onClick={handleAddBtnClick}>
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
-                <Link className="btn movie-card__button" to={`/films/${film.id}/review`} onClick={handleReviewBtnClick}>Add review</Link>
+                <AddToMyList id={Number(id)}/>
+                { isAuthorized &&
+                  <Link className="btn movie-card__button" to={`/films/${id}/review`}>Add review</Link>
+                }
               </div>
             </div>
           </div>
@@ -111,7 +105,6 @@ const FilmOverview = ({films, reviews, loadComments}) => {
           <h2 className="catalog__title">More like this</h2>
           <FilmList
             films={films.filter((el) => el.genre === genre).slice(0, EXTRA_FILMS_COUNT)}
-            listSize={EXTRA_FILMS_COUNT}
           />
         </section>
 

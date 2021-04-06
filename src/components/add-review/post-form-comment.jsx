@@ -1,46 +1,68 @@
-import React, {Fragment, useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
+import {useParams} from 'react-router-dom';
+import {connect, useSelector} from 'react-redux';
+import {ReviewPostStatus, ReviewParameter} from "../../consts";
+import {getReviewPostStatus} from "../../store/data/selectors";
+import {sendReview} from "../../store/data/operations";
+import PropTypes from 'prop-types';
+import RatingPostForm from "./rating-post-form";
+import ReviewTextarea from "./review-textarea";
 
-const PostCommentForm = () => {
+const PostCommentForm = ({onReviewSubmit}) => {
 
+  const {id} = useParams();
   const [review, setReview] = useState(``);
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(ReviewParameter.DEFAULT_RATING);
+  const reviewPostStatus = useSelector(getReviewPostStatus);
 
-  const stars = new Array(10).fill().map((el, index) =>
-    <Fragment key={`star-${index}`}>
-      <input
-        className="rating__input"
-        id={`star-${index}`}
-        type="radio" name="rating"
-        value={index + 1}
-        checked={index + 1 === rating}
-        onChange={() => setRating(index + 1)}
-      />
-      <label className="rating__label" htmlFor={`star-${index}`}>Rating {index + 1} </label>
-    </Fragment>
+  useEffect(() => {
+    if (reviewPostStatus === ReviewPostStatus.LOADED) {
+      setRating(ReviewParameter.DEFAULT_RATING);
+      setReview(``);
+    }
+  }, [reviewPostStatus]);
+
+  const handleRatingChange = useCallback(
+      ({target}) => setRating(target.value),
+      [rating]
   );
+
+  const handleCommentChange = useCallback(
+      ({target}) => setReview(target.value),
+      [review]
+  );
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    onReviewSubmit(id, rating, review);
+  };
 
   return (
     <div className="add-review">
-      <form action="#" className="add-review__form">
-        <div className="rating">
-          <div className="rating__stars">
-            {stars}
-          </div>
-        </div>
+      <form action="#" className="add-review__form" onSubmit={handleSubmit}>
+        <RatingPostForm
+          onRatingChange={handleRatingChange}
+          disabled={reviewPostStatus === ReviewPostStatus.LOADING}/>
 
         <div className="add-review__text">
-          <textarea
-            className="add-review__textarea"
-            name="review-text" id="review-text"
-            placeholder="Review text"
-            value={review}
-            onChange={(evt) => setReview(evt.target.value)}
-          >
+          <ReviewTextarea
+            onCommentChange={handleCommentChange}
+            disabled={reviewPostStatus === ReviewPostStatus.LOADING}/>
 
-          </textarea>
           <div className="add-review__submit">
-            <button className="add-review__btn" type="submit">Post</button>
+            <button
+              className="add-review__btn"
+              type="submit"
+              disabled={review.length < ReviewParameter.COMMENT_MIN_LENGTH ||
+                review.length > ReviewParameter.COMMENT_MAX_LENGTH ||
+                reviewPostStatus === ReviewPostStatus.LOADING}>
+              Post
+            </button>
           </div>
+
+          {reviewPostStatus === ReviewPostStatus.ERROR &&
+            <p>There was an error posting your review, please try again.</p>
+          }
 
         </div>
       </form>
@@ -48,4 +70,13 @@ const PostCommentForm = () => {
   );
 };
 
-export default PostCommentForm;
+PostCommentForm.propTypes = {
+  onReviewSubmit: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = {
+  onReviewSubmit: sendReview
+};
+
+export {PostCommentForm};
+export default connect(null, mapDispatchToProps)(PostCommentForm);

@@ -1,17 +1,17 @@
-import {GENRES_LIST_COUNT, ALL_GENRES, DEFAULT_GENRE} from "./consts";
+import {SECONDS_IN_MINUTE, SECONDS_IN_HOUR, RatingLevel, ALL_GENRES} from "./consts";
 
 export const getRankLabel = (rank) => {
 
   if (rank <= 3) {
-    return `Bad`;
+    return RatingLevel.BAD;
   } else if (rank <= 5) {
-    return `Normal`;
+    return RatingLevel.NORMAL;
   } else if (rank <= 8) {
-    return `Good`;
+    return RatingLevel.GOOD;
   } else if (rank <= 8) {
-    return `Very good`;
+    return RatingLevel.VERY_GOOD;
   } else {
-    return `Awesome`;
+    return RatingLevel.AWESOME;
   }
 };
 
@@ -20,12 +20,6 @@ export const getFilmsByGenre = (genre, films) => {
     return films;
   }
   return films.filter((film) => film.genre === genre);
-};
-
-export const getGenreList = (films) => {
-  const genres = films.map((film) => film.genre).sort();
-
-  return [DEFAULT_GENRE, ...new Set(genres)].slice(0, GENRES_LIST_COUNT);
 };
 
 const rawToFilm = (raw) => {
@@ -56,4 +50,22 @@ const rawToComment = (raw) => Object.assign({}, raw, {date: raw.date.slice(0, 10
 export const adapter = {
   rawToFilm,
   rawToComment,
+};
+
+export const dataToUserInfo = (data) => {
+  return ({
+    id: data[`id`],
+    email: data[`email`],
+    name: data[`name`],
+    avatarUrl: data[`avatar_url`]
+  });
+};
+
+export const convertSecondsToHHMMss = (totalSeconds) => {
+  const secondsNumber = parseInt(totalSeconds, 10);
+  const hours = Math.floor(secondsNumber / SECONDS_IN_HOUR);
+  const minutes = Math.floor((secondsNumber - (hours * SECONDS_IN_HOUR)) / SECONDS_IN_MINUTE);
+  const seconds = secondsNumber - (hours * SECONDS_IN_HOUR) - (minutes * SECONDS_IN_MINUTE);
+
+  return `${String(hours).padStart(2, `0`)}:${String(minutes).padStart(2, `0`)}:${String(seconds).padStart(2, `0`)}`;
 };

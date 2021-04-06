@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
-import FilmProp from "../props/film.prop";
-import {getGenreList} from "../../utils";
+import {connect, useSelector} from 'react-redux';
+import {changeGenre} from "../../store/app/actions";
+import {getActiveGenre} from "../../store/app/selectors";
+import {getGenreList} from "../../store/data/selectors";
 
-const GenresList = (props) => {
+const GenresList = ({onGenreChange}) => {
 
-  const {films, activeGenre, onGenreItemClick} = props;
-
-  const genres = getGenreList(films);
+  const activeGenre = useSelector(getActiveGenre);
+  const genres = useSelector(getGenreList);
 
   const handleGenreClick = ({currentTarget}) => {
-    onGenreItemClick(currentTarget.dataset.genre);
+    onGenreChange(currentTarget.dataset.genre);
   };
 
   return (
@@ -35,22 +34,13 @@ const GenresList = (props) => {
 };
 
 GenresList.propTypes = {
-  films: PropTypes.arrayOf(FilmProp).isRequired,
-  activeGenre: PropTypes.string,
-  onGenreItemClick: PropTypes.func.isRequired,
+  onGenreChange: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  activeGenre: state.activeGenre,
-  films: state.films,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onGenreItemClick(genre) {
-    dispatch(ActionCreator.changeGenre(genre));
-  },
-});
+const mapDispatchToProps = {
+  onGenreChange: changeGenre,
+};
 
 export {GenresList};
-export default connect(mapStateToProps, mapDispatchToProps)(GenresList);
+export default connect(null, mapDispatchToProps)(GenresList);
 

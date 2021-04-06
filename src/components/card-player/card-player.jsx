@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 
 const FilmCardPlayer = (props) => {
+
   const {posterSrc, videoSrc, isMuted, isPlaying, style = {}} = props;
   const videoRef = useRef();
 

@@ -1,19 +1,18 @@
 import React from 'react';
-import {useHistory} from "react-router-dom";
-import FilmProp from "../props/film.prop";
+import {useSelector} from 'react-redux';
+import {Link, useHistory} from 'react-router-dom';
 import User from "../user/user";
+import AddToFavorites from "../film/add-my-list";
+import {getPromo} from "../../store/data/selectors";
 
-const PromoFilmCard = ({promo}) => {
+const PromoFilmCard = () => {
 
+  const promo = useSelector(getPromo);
   const {id, title, genre, released, posterImage, backgroundImage} = promo;
   const history = useHistory();
 
   const handlePlayBtnClick = () => {
     history.push(`/player/${id}`);
-  };
-
-  const handleAddBtnClick = () => {
-    history.push(`/mylist`);
   };
 
   return (
@@ -38,10 +37,11 @@ const PromoFilmCard = ({promo}) => {
 
       <div className="movie-card__wrap">
         <div className="movie-card__info">
-          <div className="movie-card__poster">
-            <img src={posterImage} alt={`${title} poster`} width="218" height="327"/>
-          </div>
-
+          <Link to={`/films/${id}`}>
+            <div className="movie-card__poster">
+              <img src={posterImage} alt={`${title} poster`} width="218" height="327"/>
+            </div>
+          </Link>
           <div className="movie-card__desc">
             <h2 className="movie-card__title">{title}</h2>
             <p className="movie-card__meta">
@@ -56,22 +56,13 @@ const PromoFilmCard = ({promo}) => {
                 </svg>
                 <span>Play</span>
               </button>
-              <button className="btn btn--list movie-card__button" type="button" onClick={handleAddBtnClick}>
-                <svg viewBox="0 0 19 20" width="19" height="20">
-                  <use xlinkHref="#add"></use>
-                </svg>
-                <span>My list</span>
-              </button>
+              <AddToFavorites id={Number(id)}/>
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-};
-
-PromoFilmCard.propTypes = {
-  promo: FilmProp.isRequired,
 };
 
 export default PromoFilmCard;

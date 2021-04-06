@@ -1,4 +1,5 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Switch, Route, Router as BrowserRouter} from 'react-router-dom';
@@ -12,12 +13,21 @@ import Player from "../player/player";
 import PageNotFound from "../page-not-found/page-not-found";
 import {AppPaths} from "../../consts";
 import browserHistory from "../../browser-history";
+import {getIsDataLoaded} from "../../store/data/selectors";
+import Spinner from "../main-page/spinner";
 import FilmProp from "../props/film.prop";
 
 
 const App = (props) => {
 
   const {films} = props;
+  const isDataLoaded = useSelector(getIsDataLoaded);
+
+  if (!isDataLoaded) {
+    return (
+      <Spinner />
+    );
+  }
 
   return (
     <BrowserRouter history={browserHistory}>
@@ -31,13 +41,13 @@ const App = (props) => {
 
         <PrivateRoute
           exact
-          path={AppPaths.MYLIST}
-          render={() => <MyList />}
-        />
+          path={AppPaths.MY_LIST}
+          render={() => <MyList />}>
+        </PrivateRoute>
 
         <PrivateRoute
           exact
-          path="/films/:id/review"
+          path={AppPaths.REVIEW}
           render={() => <ReviewForm films={films} />}>
         </PrivateRoute>
 

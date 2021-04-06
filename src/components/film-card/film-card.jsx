@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-// import PropTypes from 'prop-types';
-import {Link, useHistory} from "react-router-dom";
+import React, {memo, useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import FilmProp from "../props/film.prop";
 import FilmCardPlayer from "../card-player/card-player";
+import {CARD_PLAYER_TIMEOUT} from "../../consts";
 
 const FilmCard = (props) => {
 
@@ -15,7 +15,7 @@ const FilmCard = (props) => {
   const handleMouseEnter = () => {
     timeoutId = setTimeout(() => {
       setIsPlaying(true);
-    }, 1000);
+    }, CARD_PLAYER_TIMEOUT);
   };
 
   const handleMouseLeave = () => {
@@ -37,7 +37,7 @@ const FilmCard = (props) => {
 
   return (
     <article className="small-movie-card catalog__movies-card" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <div className="small-movie-card__image">
+      <div className="small-movie-card__image" onClick={handleCardClick}>
         <FilmCardPlayer
           posterSrc={previewImage}
           videoSrc={previewVideoLink}
@@ -62,4 +62,4 @@ FilmCard.propTypes = {
   film: FilmProp.isRequired,
 };
 
-export default FilmCard;
+export default memo(FilmCard);

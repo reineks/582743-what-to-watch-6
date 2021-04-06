@@ -1,14 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {Link} from "react-router-dom";
+import {connect, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 import FilmList from "../film-list/film-list";
 import User from "../user/user";
-import FilmProp from "../props/film.prop";
+import {getFavorites} from '../../store/data/selectors';
+import {logout} from '../../store/user/operations';
+import {fetchFavorites} from '../../store/data/operations';
 
-const MyList = (props) => {
+const MyList = ({onLogout, onFetchFavorites}) => {
+  useEffect(() => {
+    onFetchFavorites();
 
-  const {films} = props;
+    return () => {
+      onLogout();
+    };
+  }, []);
+
+  const myListFilms = useSelector(getFavorites);
 
   return (
     <div className="user-page">
@@ -29,7 +38,7 @@ const MyList = (props) => {
 
         <div className="catalog__movies-list">
           <FilmList
-            films={films.filter((film) => film.isFavorite)}
+            films={myListFilms}
           />
         </div>
       </section>
@@ -50,12 +59,14 @@ const MyList = (props) => {
 };
 
 MyList.propTypes = {
-  films: PropTypes.arrayOf(FilmProp).isRequired,
+  onLogout: PropTypes.func.isRequired,
+  onFetchFavorites: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  films: state.films,
-});
+const mapDispatchToProps = {
+  onLogout: logout,
+  onFetchFavorites: fetchFavorites
+};
 
 export {MyList};
-export default connect(mapStateToProps, null)(MyList);
+export default connect(null, mapDispatchToProps)(MyList);

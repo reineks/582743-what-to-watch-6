@@ -1,16 +1,29 @@
-import React from 'react';
-import {Link, useParams} from "react-router-dom";
-import FilmProp from "../props/film.prop";
+import React, {useEffect} from 'react';
+import {Link, useParams} from 'react-router-dom';
+import {connect, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import PostCommentForm from "./post-form-comment";
+import {getFilmById} from "../../store/data/selectors";
+import {logout} from "../../store/user/operations";
+import NotFoundPage from "../page-not-found/page-not-found";
 import User from "../user/user";
 
-const ReviewForm = ({films}) => {
+const ReviewForm = ({onLogout}) => {
 
   const {id} = useParams();
-  const film = films.find((item) => item.id === Number(id));
+  const film = useSelector((state) => getFilmById(state, id));
 
   const {title, posterImage, backgroundImage, backgroundColor} = film;
+
+  useEffect(() => {
+    return () => {
+      onLogout();
+    };
+  }, []);
+
+  if (!film) {
+    return <NotFoundPage />;
+  }
 
   return (
     <section className="movie-card movie-card--full" style={({backgroundColor})}>
@@ -56,8 +69,12 @@ const ReviewForm = ({films}) => {
 };
 
 ReviewForm.propTypes = {
-  films: PropTypes.arrayOf(FilmProp).isRequired,
-  film: FilmProp,
+  onLogout: PropTypes.func,
 };
 
-export default ReviewForm;
+const mapDispatchToProps = {
+  onLogout: logout,
+};
+
+export {ReviewForm};
+export default connect(null, mapDispatchToProps)(ReviewForm);

@@ -2,14 +2,13 @@ import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {ActionCreator} from '../../store/action';
 import {connect} from 'react-redux';
-import {getFilmsByGenre} from "../../utils";
+import {getFilmsFilteredByGenre} from "../../store/app/selectors";
 import FilmList from "../film-list/film-list";
 import GenresList from "../main-page/genre-list";
 import PromoFilmCard from "../promo-film-card/promo-film-card";
 import Spinner from "./spinner";
 import FilmProp from "../props/film.prop";
-import {FILMS_LIST_SIZE} from "../../consts";
-import {fetchFilmsList, fetchPromo} from "../../store/api-actions";
+import {fetchFilmsList, fetchPromo} from "../../store/data/operations";
 
 
 const MainPage = (props) => {
@@ -46,7 +45,6 @@ const MainPage = (props) => {
           <GenresList />
           <FilmList
             films={films}
-            filmslistSize = {FILMS_LIST_SIZE}
           />
 
         </section>
@@ -80,7 +78,7 @@ MainPage.propTypes = {
 
 const mapStateToProps = (state) => ({
   activeGenre: state.genre,
-  films: getFilmsByGenre(state.genre, state.films),
+  films: getFilmsFilteredByGenre(state.genre, state.films),
   isDataLoaded: state.isDataLoaded,
   promo: state.promo,
 });

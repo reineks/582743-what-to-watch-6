@@ -1,5 +1,5 @@
 import React from 'react';
-import {checkAuthNo} from "../../store/api-actions";
+import {logout} from "../../store/user/operations";
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -27,7 +27,7 @@ UserBlock.propTypes = {
 
 const mapDispatchToProps = (dispatch)=>({
   onClickLeave() {
-    dispatch(checkAuthNo());
+    dispatch(logout());
   }
 });
 

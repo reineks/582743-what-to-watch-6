@@ -38,7 +38,6 @@ const FilmList = (props) => {
 
 FilmList.propTypes = {
   films: PropTypes.arrayOf(FilmProp).isRequired,
-  filmslistSize: PropTypes.number,
 };
 
 export default FilmList;
